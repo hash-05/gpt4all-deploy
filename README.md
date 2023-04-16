@@ -13,5 +13,7 @@ pyllamacpp-convert-gpt4all path/to/gpt4all_model.bin path/to/llama_tokenizer pat
 
 Official Repositories
 [gpt4all](https://github.com/nomic-ai/gpt4all)
+
 [pyllamaCPP](https://github.com/nomic-ai/pyllamacpp#pyllamacpp)
+
 [Documentation for pyllamacpp](https://nomic-ai.github.io/pyllamacpp/#pyllamacpp.constants.LLAMA_CONTEXT_PARAMS_SCHEMA)
