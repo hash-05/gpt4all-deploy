@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LLM Model Chat</title>
+    <style>
+        .chat-container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+
+        .chat-messages {
+            margin-bottom: 10px;
+        }
+
+        .user-input-form {
+            display: flex;
+        }
+
+        .user-input-form input[type="text"] {
+            flex-grow: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .user-input-form input[type="submit"] {
+            padding: 5px 10px;
+            background-color: #062f5a;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .chat-bot-message {
+            background-color: #062f5a;
+            color: #fff;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+        }
+
+        .clear-chat-button {
+            padding: 5px 10px;
+            background-color: #062f5a;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages"></div>
+        <form class="user-input-form" onsubmit="sendMessage(); return false;">
+            <input type="text" id="userInput" placeholder="Enter prompt" />
+            <input type="submit" value="Send" />
+        </form>
+        <button onclick="clearChat()" class="clear-chat-button">Clear Chat</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userInput = document.getElementById("userInput");
+            var chatMessages = document.getElementById("chatMessages");
+
+            var userMessage = userInput.value;
+            fetch('http://127.0.0.1:8000/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: userMessage, temperature: 0.1, top_k: 40, top_p: 0.75, num_beams: 4 }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var chatBotMessage = document.createElement("div");
+                    chatBotMessage.className = "chat-bot-message";
+                    chatBotMessage.textContent = "gpt4all bot: " + data.prediction;
+
+                    chatMessages.appendChild(chatBotMessage);
+
+                    userInput.value = "";
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function clearChat() {
+            var chatMessages = document.getElementById("chatMessages");
+            chatMessages.innerHTML = "";
+        }
+    </script>
+</body>
+
+</html>
+l̥
